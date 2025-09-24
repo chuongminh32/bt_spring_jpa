@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content">
+  <!-- Nếu đã login -->
+  <div th:if="${account != null}" class="card shadow p-4" style="max-width: 650px; margin: auto;">
+    <h3 class="text-center mb-4">Hồ sơ cá nhân</h3>
+
+    <div th:if="${error}" class="alert alert-danger text-center" th:text="${error}"></div>
+    <div th:if="${success}" class="alert alert-success text-center" th:text="${success}"></div>
+
+    <form th:action="@{${account.isAdmin} ? '/admin/profile' : '/user/profile'}"
+          method="post" enctype="multipart/form-data">
+
+      <div class="text-center mb-4">
+        <img th:src="@{/uploads/{img}(img=${account.avatar})}"
+             alt="Avatar"
+             class="rounded-circle img-thumbnail mx-auto d-block"
+             style="width: 150px; height: 150px; object-fit: cover;">
+        <p class="text-muted mt-2">ID: <span th:text="${account.id}"></span></p>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-control" th:value="${account.email}" readonly>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Họ tên</label>
+        <input type="text" class="form-control" name="fullName" th:value="${account.fullName}" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Số điện thoại</label>
+        <input type="text" class="form-control" name="phone" th:value="${account.phone}">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Ảnh đại diện</label>
+        <input type="file" class="form-control" name="avatarFile" accept="image/*">
+      </div>
+
+      <hr>
+      <h5 class="mb-3">🔒 Đổi mật khẩu</h5>
+
+      <div class="mb-3">
+        <label class="form-label">Mật khẩu hiện tại</label>
+        <input type="password" class="form-control" name="oldPassword">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Mật khẩu mới</label>
+        <input type="password" class="form-control" name="newPassword">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Xác nhận mật khẩu mới</label>
+        <input type="password" class="form-control" name="confirmPassword">
+      </div>
+
+      <div class="text-center mt-4">
+        <button type="submit" class="btn btn-success">💾 Lưu thay đổi</button>
+      </div>
+    </form>
+  </div>
+
+  <div th:if="${account == null}" class="alert alert-warning text-center">
+    Bạn chưa đăng nhập. <a th:href="@{/login}">Đăng nhập ngay</a>.
+  </div>
+</div>
+</body>
+</html>

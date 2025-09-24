@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/user}">
+<head>
+<title>Danh sách Sách</title>
+</head>
+<body>
+	<div layout:fragment="content" class="container mt-4">
+
+		<h2 class="mb-3">📚 Danh sách Sách</h2>
+
+		<!-- Nút thêm Book + Thanh tìm kiếm -->
+		<div class="d-flex justify-content-between mb-3">
+			<a th:href="@{/admin/book/add}" class="btn btn-primary">+ Thêm
+				Sách</a> <input type="text" id="customSearch" class="form-control w-25"
+				placeholder="🔍 Nhập từ khóa để tìm...">
+		</div>
+
+		<!-- Bảng Books -->
+		<table id="bookTable"
+			class="table table-bordered table-striped align-middle">
+			<thead class="table-dark text-center">
+				<tr>
+					<th>ID</th>
+					<th>ISBN</th>
+					<th>Tiêu đề</th>
+					<th>NXB</th>
+					<th>Giá</th>
+					<th>Số lượng</th>
+					<th>Bìa</th>
+					<th>Thao tác</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="b : ${listBook}">
+					<td th:text="${b.bookId}"></td>
+					<td th:text="${b.isbn}"></td>
+					<td th:text="${b.title}"></td>
+					<td th:text="${b.publisher}"></td>
+					<td th:text="${b.price}"></td>
+					<td th:text="${#dates.format(b.publishDate, 'dd/MM/yyyy')}"></td>
+					<td th:text="${b.quantity}"></td>
+					<td><img th:src="@{/uploads/{img}(img=${b.coverImage})}"
+						alt="cover" width="60" height="80" /></td>
+				</tr>
+
+			</tbody>
+		</table>
+
+	</div>
+
+	<!-- Script DataTables -->
+	<script th:inline="javascript">
+    $(document).ready(function () {
+        let table = $('#bookTable').DataTable({
+            pageLength: 5,
+            lengthChange: false,
+            searching: true,
+            info: false,
+            pagingType: "simple",
+            dom: 't<"d-flex justify-content-center mt-3"p>',
+            language: {
+                paginate: {
+                    previous: "« Trước",
+                    next: "Sau »"
+                },
+                zeroRecords: "Không có dữ liệu"
+            }
+        });
+
+        // 🔍 Tìm kiếm thủ công
+        $('#customSearch').on('keyup', function () {
+            table.search(this.value).draw();
+        });
+
+        // 🎨 Style pagination đẹp
+        function stylePagination() {
+            $('.dataTables_paginate a')
+                .addClass('btn btn-dark mx-2')
+                .css({
+                    'color': '#fff',
+                    'text-decoration': 'none'
+                });
+
+            $('.dataTables_paginate .disabled a')
+                .removeClass('btn-dark')
+                .addClass('btn btn-secondary disabled')
+                .css('color', '#fff');
+        }
+
+        stylePagination();
+        table.on('draw', function () {
+            stylePagination();
+        });
+    });
+</script>
+</body>
+</html>

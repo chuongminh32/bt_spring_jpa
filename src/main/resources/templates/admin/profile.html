@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin}">
+<head>
+  <meta charset="UTF-8">
+  <title>Hồ sơ cá nhân (Admin)</title>
+</head>
+<body>
+<div layout:fragment="content" class="container mt-5">
+
+  <div th:replace="common/profile-content :: content"></div>
+
+</div>
+</body>
+</html>

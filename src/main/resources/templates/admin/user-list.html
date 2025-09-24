@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/admin}">
+<head>
+<title>Danh sách Users</title>
+</head>
+<body>
+	<div layout:fragment="content" class="container mt-4">
+
+		<h2 class="mb-3">Danh sách Users</h2>
+
+		<!-- Nút thêm User + Thanh tìm kiếm -->
+		<div class="d-flex justify-content-between mb-3">
+			<a th:href="@{/admin/user/add}" class="btn btn-primary">+ Thêm
+				User</a> <input type="text" id="customSearch" class="form-control w-25"
+				placeholder="🔍 Nhập từ khóa để tìm...">
+		</div>
+
+		<!-- Bảng Users -->
+		<table id="userTable"
+			class="table table-bordered table-striped align-middle">
+			<thead class="table-dark text-center">
+				<tr>
+					<th>ID</th>
+					<th>Avatar</th>
+					<th>Email</th>
+					<th>Full Name</th>
+					<th>Phone</th>
+					<th>Admin</th>
+					<th>Thao tác</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="u : ${listUser}">
+					<td class="text-center" th:text="${u.id}"></td>
+					<td class="text-center"><img
+						th:src="${u.avatar != null} ? @{/uploads/{img}(img=${u.avatar})} : @{/uploads/default-avatar.jpg}"
+						alt="avatar" class="img-thumbnail"
+						style="width: 60px; height: 60px; object-fit: cover;" /></td>
+					<td th:text="${u.email}"></td>
+					<td th:text="${u.fullName}"></td>
+					<td th:text="${u.phone}"></td>
+					<td class="text-center" th:text="${u.isAdmin}"></td>
+					<td class="text-center">
+						<!-- Sửa --> <a th:href="@{/admin/user/edit/{id}(id=${u.id})}"
+						class="btn btn-sm btn-warning">Sửa</a> <!-- Xóa --> <a
+						th:href="@{/admin/user/delete/{id}(id=${u.id})}"
+						class="btn btn-sm btn-danger"
+						onclick="return confirm('Bạn có chắc chắn muốn xóa user này?')">Xóa</a>
+
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+	</div>
+
+	<!-- Các script sẽ nằm trong layout/admin.html để tái sử dụng -->
+	<script th:inline="javascript">
+  $(document).ready(function () {
+    let table = $('#userTable').DataTable({
+      pageLength: 5,
+      lengthChange: false,
+      searching: true,   // bật để dùng API search
+      info: false,
+      pagingType: "simple",
+      dom: 't<"d-flex justify-content-center mt-3"p>',
+      language: {
+        paginate: {
+          previous: "« Trước",
+          next: "Sau »"
+        },
+        zeroRecords: "Không có dữ liệu"
+      }
+    });
+
+    // 🔍 Xử lý tìm kiếm thủ công
+    $('#customSearch').on('keyup', function () {
+      table.search(this.value).draw();
+    });
+
+    // 🎨 Style pagination đẹp hơn
+    function stylePagination() {
+      $('.dataTables_paginate a')
+        .addClass('btn btn-dark mx-2')
+        .css({
+          'color': '#fff',
+          'text-decoration': 'none'
+        });
+
+      $('.dataTables_paginate .disabled a')
+        .removeClass('btn-dark')
+        .addClass('btn btn-secondary disabled')
+        .css('color', '#fff');
+    }
+
+    stylePagination(); // chạy lần đầu
+    table.on('draw', function () {
+      stylePagination();
+    });
+  });
+</script>
+</body>
+</html>
