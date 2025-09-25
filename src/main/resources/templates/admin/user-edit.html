@@ -11,11 +11,8 @@
 		<h2>Cập nhật User</h2>
 
 		<form th:action="@{/admin/user/update}" method="post"
-			enctype="multipart/form-data" class="mt-3">
+			 class="mt-3">
 
-			<!-- Giữ id + avatar cũ -->
-			<input type="hidden" name="id" th:value="${user.id}" /> <input
-				type="hidden" name="oldAvatar" th:value="${user.avatar}" />
 
 			<div class="mb-3">
 				<label class="form-label">Email</label> <input type="text"
@@ -46,24 +43,6 @@
 					<option value="true" th:selected="${user.isAdmin == true}">Yes</option>
 
 				</select>
-			</div>
-
-			<!-- Avatar -->
-			<div class="mb-3">
-				<label class="form-label">Avatar hiện tại</label><br /> <img
-					th:src="${user.avatar != null} ? @{/uploads/{img}(img=${user.avatar})} : @{/uploads/default-avatar.png}"
-					alt="avatar" class="img-thumbnail mb-2"
-					style="width: 100px; height: 100px; object-fit: cover;" />
-			</div>
-
-			<!-- Giữ id + avatar cũ -->
-			<input type="hidden" name="id" th:value="${user.id}" /> <input
-				type="hidden" name="oldAvatar" th:value="${user.avatar}" />
-
-			<div class="mb-3">
-				<label class="form-label">Đổi Avatar (nếu muốn)</label>
-				<!-- tên phải khớp "avatarFile" -->
-				<input type="file" name="avatarFile" class="form-control" />
 			</div>
 
 

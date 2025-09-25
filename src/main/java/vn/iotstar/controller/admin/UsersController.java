@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+// import org.springframework.web.multipart.MultipartFile; // 
 
 import java.io.File;
 import java.io.IOException;
@@ -38,12 +38,12 @@ public class UsersController {
     // Thêm mới
     @PostMapping("/user/insert")
     public String insertUser(
-            @ModelAttribute User user,
-            @RequestParam("avatarFile") MultipartFile avatarFile
+            @ModelAttribute User user
+            // , @RequestParam("avatarFile") MultipartFile avatarFile // ❌ bỏ avatar
     ) throws IOException {
 
-        String avatarFileName = handleUpload(avatarFile);
-        user.setAvatar(avatarFileName != null ? avatarFileName : "default-avatar.jpg");
+//        String avatarFileName = handleUpload(avatarFile);
+//        user.setAvatar(avatarFileName != null ? avatarFileName : "default-avatar.jpg");
 
         userService.insert(user);
         return "redirect:/admin/users";
@@ -60,13 +60,13 @@ public class UsersController {
     // Cập nhật
     @PostMapping("/user/update")
     public String updateUser(
-            @ModelAttribute User user,
-            @RequestParam("avatarFile") MultipartFile avatarFile,
-            @RequestParam("oldAvatar") String oldAvatar
+            @ModelAttribute User user
+            // , @RequestParam("avatarFile") MultipartFile avatarFile
+            // , @RequestParam("oldAvatar") String oldAvatar
     ) throws IOException {
 
-        String newAvatar = handleUpload(avatarFile);
-        user.setAvatar(newAvatar != null ? newAvatar : oldAvatar);
+//        String newAvatar = handleUpload(avatarFile);
+//        user.setAvatar(newAvatar != null ? newAvatar : oldAvatar);
 
         userService.update(user);
         return "redirect:/admin/users";
@@ -79,25 +79,25 @@ public class UsersController {
         return "redirect:/admin/users";
     }
 
- // Xử lý upload file
-    private String handleUpload(MultipartFile file) throws IOException {
-        if (file != null && !file.isEmpty()) {
-            String fileName = Paths.get(file.getOriginalFilename()).getFileName().toString();
-
-            // Lưu file vào static/uploads (nằm trong target/classes/static/uploads)
-            String uploadDir = new File("target/classes/static/uploads").getAbsolutePath();
-
-            File dir = new File(uploadDir);
-            if (!dir.exists()) {
-                dir.mkdirs();
-            }	
-
-            String savedName = System.currentTimeMillis() + "_" + fileName;
-            file.transferTo(new File(dir, savedName));
-
-            return savedName; // chỉ lưu tên file, khi hiển thị thì src="/uploads/{savedName}"
-        }
-        return null;
-    }
+//    // Xử lý upload file (❌ không cần nữa nếu không có avatar trong DB)
+//    private String handleUpload(MultipartFile file) throws IOException {
+//        if (file != null && !file.isEmpty()) {
+//            String fileName = Paths.get(file.getOriginalFilename()).getFileName().toString();
+//
+//            // Lưu file vào static/uploads (nằm trong target/classes/static/uploads)
+//            String uploadDir = new File("target/classes/static/uploads").getAbsolutePath();
+//
+//            File dir = new File(uploadDir);
+//            if (!dir.exists()) {
+//                dir.mkdirs();
+//            }	
+//
+//            String savedName = System.currentTimeMillis() + "_" + fileName;
+//            file.transferTo(new File(dir, savedName));
+//
+//            return savedName; // chỉ lưu tên file, khi hiển thị thì src="/uploads/{savedName}"
+//        }
+//        return null;
+//    }
 
 }

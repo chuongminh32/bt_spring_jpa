@@ -1,11 +1,12 @@
 package vn.iotstar.entity;
 
 import jakarta.persistence.*;
-import java.util.Date;
+
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name = "authors")
+@Table(name = "author")   // trong DB là "author" (không phải authors)
 public class Author {
 
     @Id
@@ -18,15 +19,14 @@ public class Author {
 
     @Temporal(TemporalType.DATE)
     @Column(name = "date_of_birth")
-    private Date dateOfBirth;
+    private LocalDate  dateOfBirth;
 
-    // Quan hệ nhiều-nhiều với Book
-    @ManyToMany(mappedBy = "authors")
+    @ManyToMany(mappedBy = "authors", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<Book> books;
 
     public Author() {}
 
-    public Author(int authorId, String authorName, Date dateOfBirth) {
+    public Author(int authorId, String authorName, LocalDate  dateOfBirth) {
         this.authorId = authorId;
         this.authorName = authorName;
         this.dateOfBirth = dateOfBirth;
@@ -39,8 +39,8 @@ public class Author {
     public String getAuthorName() { return authorName; }
     public void setAuthorName(String authorName) { this.authorName = authorName; }
 
-    public Date getDateOfBirth() { return dateOfBirth; }
-    public void setDateOfBirth(Date dateOfBirth) { this.dateOfBirth = dateOfBirth; }
+    public LocalDate getDateOfBirth() { return dateOfBirth; }
+    public void setDateOfBirth(LocalDate dateOfBirth) { this.dateOfBirth = dateOfBirth; }
 
     public List<Book> getBooks() { return books; }
     public void setBooks(List<Book> books) { this.books = books; }

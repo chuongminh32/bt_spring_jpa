@@ -32,15 +32,7 @@
 
           <!-- Nếu đã đăng nhập -->
           <li class="nav-item dropdown d-flex align-items-center" th:if="${session.account != null}">
-            <!-- Avatar -->
-            <img th:src="${session.account.avatar != null} ? 
-                         @{/uploads/{img}(img=${session.account.avatar})} : 
-                         @{/uploads/default-avatar.jpg}"
-                 alt="avatar"
-                 class="rounded-circle me-2"
-                 width="32" height="32"
-                 style="object-fit: cover;">
-
+          
             <!-- Dropdown -->
             <a class="nav-link dropdown-toggle text-white" href="#"
                id="userDropdown" role="button"
@@ -48,9 +40,7 @@
                th:text="'Xin chào, ' + ${session.account.fullName}">
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-              <li>
-                <a class="dropdown-item" th:href="@{/user/profile}">Hồ sơ cá nhân</a>
-              </li>
+             
               <li><hr class="dropdown-divider"></li>
               <li>
                 <a class="dropdown-item" th:href="@{/logout}">Đăng xuất</a>

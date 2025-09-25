@@ -11,7 +11,7 @@
     <h2>Thêm User mới</h2>
 
     <form th:action="@{/admin/user/insert}"
-          method="post" enctype="multipart/form-data" class="mt-3">
+          method="post"  class="mt-3">
 
         <div class="mb-3">
             <label class="form-label">Email</label>
@@ -41,10 +41,7 @@
             </select>
         </div>
 
-        <div class="mb-3">
-            <label class="form-label">Avatar</label>
-            <input type="file" name="avatarFile" class="form-control"/>
-        </div>
+ 
 
         <button type="submit" class="btn btn-success">Thêm mới</button>
         <a th:href="@{/admin/users}" class="btn btn-secondary">Quay lại</a>

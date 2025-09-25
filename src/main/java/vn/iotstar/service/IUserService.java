@@ -12,7 +12,6 @@ public interface IUserService {
     void delete(int id);
     List<User> findAll();
     User findById(int id);
-    User findByUsername(String username);
     void insert(User user);
     User findByEmail(String email);
     User findByPhone(int phone);

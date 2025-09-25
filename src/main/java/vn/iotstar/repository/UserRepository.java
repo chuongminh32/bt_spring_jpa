@@ -11,5 +11,4 @@ import vn.iotstar.entity.User;
 public interface UserRepository extends JpaRepository<User, Integer> {
 	    Optional<User> findByEmail(String email);
 	    Optional<User> findByPhone(int string);
-	    Optional<User> findByUsername(String username);
 }

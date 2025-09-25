@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/admin}">
+
+<head>
+<title>Chi tiết Sách</title>
+</head>
+<body>
+	<div layout:fragment="content" class="container mt-4">
+
+		<h2 class="mb-3">Chi tiết Sách</h2>
+
+		<div class="row">
+			<div class="col-md-4 text-center">
+				<img th:src="${book.coverImage}" alt="cover"
+					class="img-fluid img-thumbnail"
+					style="max-height: 300px; object-fit: cover;" />
+			</div>
+			<div class="col-md-8">
+				<p>
+					<strong>Tiêu đề:</strong> <span th:text="${book.title}"></span>
+				</p>
+				<p>
+					<strong>Mã ISBN:</strong> <span th:text="${book.isbn}"></span>
+				</p>
+				<p>
+					<strong>Publisher:</strong> <span th:text="${book.publisher}"></span>
+				</p>
+				<p>
+					<strong>Ngày xuất bản:</strong> <span
+						th:text="${book.publishDate != null ? #temporals.format(book.publishDate, 'dd/MM/yyyy') : 'Chưa có'}"></span>
+				</p>
+
+				<p>
+					<strong>Số lượng:</strong> <span th:text="${book.quantity}"></span>
+				</p>
+			</div>
+		</div>
+
+		<hr />
+
+		<h4>
+			Reviews (<span th:text="${#lists.size(reviews)}"></span>)
+		</h4>
+		<div th:if="${#lists.isEmpty(reviews)}">
+			<p>Chưa có đánh giá nào.</p>
+		</div>
+		<ul class="list-group mb-3" th:each="r : ${reviews}">
+			<li class="list-group-item"><strong th:text="${r.user.fullName}"></strong>:
+				<span th:text="${r.reviewText}"></span></li>
+		</ul>
+
+		<h5>Thêm review mới</h5>
+		<form th:action="@{/admin/books-review}" method="post">
+			<input type="hidden" name="bookId" th:value="${book.bookId}" />
+			<div class="mb-3">
+				<label for="reviewText" class="form-label">Viết review:</label>
+				<textarea id="reviewText" name="content" class="form-control"
+					rows="3" required></textarea>
+			</div>
+			<button type="submit" class="btn btn-primary">Gửi Review</button>
+		</form>
+
+
+	</div>
+</body>
+</html>

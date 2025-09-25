@@ -4,22 +4,22 @@ import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "users")   // tên bảng trong DB
+@Table(name = "users")   // bảng trong DB
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  // auto increment
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // AUTO_INCREMENT
     private int id;
 
-    @Column(nullable = false, unique = true, length = 100)
+    @Column(nullable = false, unique = true, length = 50)
     private String email;
 
-    @Column(name = "fullname", length = 100)
+    @Column(name = "fullname", length = 50)
     private String fullName;
 
-    private int phone;
+    private Integer phone;
 
-    @Column(name = "passwd", length = 255)
+    @Column(name = "passwd", length = 32)
     private String password;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -33,15 +33,10 @@ public class User {
     @Column(name = "is_admin")
     private Boolean isAdmin;
 
-    private String avatar;
-
-    @Column(length = 50, unique = true)
-    private String username;
-
     public User() {}
 
     public User(int id, String email, String fullName, Integer phone, String password,
-                Date signupDate, Date lastLogin, Boolean isAdmin, String avatar) {
+                Date signupDate, Date lastLogin, Boolean isAdmin) {
         this.id = id;
         this.email = email;
         this.fullName = fullName;
@@ -50,7 +45,6 @@ public class User {
         this.signupDate = signupDate;
         this.lastLogin = lastLogin;
         this.isAdmin = isAdmin;
-        this.avatar = avatar;
     }
 
     // Getter & Setter
@@ -78,23 +72,15 @@ public class User {
     public Boolean getIsAdmin() { return isAdmin; }
     public void setIsAdmin(Boolean isAdmin) { this.isAdmin = isAdmin; }
 
-    public String getAvatar() { return avatar; }
-    public void setAvatar(String avatar) { this.avatar = avatar; }
-
-    public String getUsername() { return username; }
-    public void setUsername(String username) { this.username = username; }
-
     @Override
     public String toString() {
-        return "User [id=" + id + 
-               ", email=" + email + 
-               ", fullName=" + fullName + 
-               ", phone=" + phone + 
-               ", password=" + password + 
-               ", signupDate=" + signupDate + 
-               ", lastLogin=" + lastLogin + 
-               ", isAdmin=" + isAdmin + 
-               ", avatar=" + avatar +
-               ", username=" + username + "]";
+        return "User [id=" + id +
+                ", email=" + email +
+                ", fullName=" + fullName +
+                ", phone=" + phone +
+                ", password=" + password +
+                ", signupDate=" + signupDate +
+                ", lastLogin=" + lastLogin +
+                ", isAdmin=" + isAdmin + "]";
     }
 }

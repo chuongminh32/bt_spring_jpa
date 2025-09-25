@@ -23,7 +23,7 @@
 			<thead class="table-dark text-center">
 				<tr>
 					<th>ID</th>
-					<th>Avatar</th>
+			
 					<th>Email</th>
 					<th>Full Name</th>
 					<th>Phone</th>
@@ -34,10 +34,7 @@
 			<tbody>
 				<tr th:each="u : ${listUser}">
 					<td class="text-center" th:text="${u.id}"></td>
-					<td class="text-center"><img
-						th:src="${u.avatar != null} ? @{/uploads/{img}(img=${u.avatar})} : @{/uploads/default-avatar.jpg}"
-						alt="avatar" class="img-thumbnail"
-						style="width: 60px; height: 60px; object-fit: cover;" /></td>
+					
 					<td th:text="${u.email}"></td>
 					<td th:text="${u.fullName}"></td>
 					<td th:text="${u.phone}"></td>

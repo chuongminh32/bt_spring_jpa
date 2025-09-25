@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin}">
+<head>
+    <title>Form Tác giả</title>
+</head>
+<body>
+<div layout:fragment="content" class="container mt-4">
+
+    <h2 th:text="${author.authorId != 0 ? 'Sửa Tác giả' : 'Thêm Tác giả'}"></h2>
+
+    <form th:action="@{/admin/authors/save}" th:object="${author}" method="post">
+        <input type="hidden" th:field="*{authorId}"/>
+
+        <div class="mb-3">
+            <label class="form-label">Tên tác giả</label>
+            <input type="text" th:field="*{authorName}" class="form-control" required/>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Ngày sinh</label>
+            <input type="date" th:field="*{dateOfBirth}" class="form-control"/>
+        </div>
+
+        <button type="submit" class="btn btn-success">Lưu</button>
+        <a th:href="@{/admin/authors}" class="btn btn-secondary">Hủy</a>
+    </form>
+
+</div>
+</body>
+</html>

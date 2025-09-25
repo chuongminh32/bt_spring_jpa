@@ -69,10 +69,6 @@ public class UserServiceImpl implements IUserService {
         return userRepository.findById(id).orElse(null);
     }
 
-    @Override
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username).orElse(null);
-    }
 
     @Override
     public void insert(User user) {

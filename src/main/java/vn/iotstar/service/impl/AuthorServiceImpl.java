@@ -1,37 +1,36 @@
-// BookServiceImpl.java
 package vn.iotstar.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import vn.iotstar.entity.Book;
-import vn.iotstar.repository.BookRepository;
-import vn.iotstar.service.IBookService;
+import vn.iotstar.entity.Author;
+import vn.iotstar.repository.AuthorRepository;
+import vn.iotstar.service.IAuthorService;
 
 @Service
 @RequiredArgsConstructor
-public class BookServiceImpl implements IBookService {
-    private final BookRepository repo;
+public class AuthorServiceImpl implements IAuthorService {
+
+    private final AuthorRepository repo;
 
     @Override
-    public Page<Book> findAll(Pageable pageable) {
+    public Page<Author> findAll(Pageable pageable) {
         return repo.findAll(pageable);
     }
 
     @Override
-    public Book findById(int id) {
+    public Author findById(int id) {
         return repo.findById(id).orElse(null);
     }
 
     @Override
-    public Book save(Book book) {
-        return repo.save(book);
+    public Author save(Author author) {
+        return repo.save(author);
     }
 
     @Override
-    public void delete(int id) { 
+    public void delete(int id) {
         repo.deleteById(id);
     }
 }

@@ -1,7 +1,8 @@
 package vn.iotstar.entity;
 
 import jakarta.persistence.*;
-import java.util.Date;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -13,43 +14,47 @@ public class Book {
     @Column(name = "bookid")
     private Integer bookId;
 
-    @Column(nullable = false, length = 50)
-    private String isbn;
+    @Column(nullable = false)
+    private Integer isbn;   // SQL: int
 
-    @Column(nullable = false, length = 255)
+    @Column(nullable = false, length = 200)
     private String title;
 
     @Column(length = 100)
     private String publisher;
 
-    private Double price;
+    @Column(precision = 6, scale = 2)
+    private BigDecimal price;   // SQL: decimal(6,2)
 
     @Column(columnDefinition = "TEXT")
     private String description;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "publish_date")
-    private Date publishDate;
+    private LocalDate  publishDate;
 
-    @Column(name = "cover_image")
+    @Column(name = "cover_image", length = 100)
     private String coverImage;
 
     private Integer quantity;
 
-    // Quan hệ Many-to-Many với Author
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(
         name = "book_author",
-        joinColumns = @JoinColumn(name = "bookid"),
+        joinColumns = @JoinColumn(name = "book_id"),
         inverseJoinColumns = @JoinColumn(name = "author_id")
     )
     private List<Author> authors;
 
+//    Thêm quan hệ OneToMany với Rating
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Rating> ratings;
+
     // ===== Constructor =====
     public Book() {}
 
-    public Book(Integer bookId, String isbn, String title, String publisher,
-                Double price, String description, Date publishDate,
+    public Book(Integer bookId, Integer isbn, String title, String publisher,
+                BigDecimal price, String description, LocalDate  publishDate,
                 String coverImage, Integer quantity) {
         this.bookId = bookId;
         this.isbn = isbn;
@@ -70,10 +75,10 @@ public class Book {
         this.bookId = bookId;
     }
 
-    public String getIsbn() {
+    public Integer getIsbn() {
         return isbn;
     }
-    public void setIsbn(String isbn) {
+    public void setIsbn(Integer isbn) {
         this.isbn = isbn;
     }
 
@@ -91,10 +96,10 @@ public class Book {
         this.publisher = publisher;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
@@ -105,10 +110,10 @@ public class Book {
         this.description = description;
     }
 
-    public Date getPublishDate() {
+    public LocalDate  getPublishDate() {
         return publishDate;
     }
-    public void setPublishDate(Date publishDate) {
+    public void setPublishDate(LocalDate  publishDate) {
         this.publishDate = publishDate;
     }
 

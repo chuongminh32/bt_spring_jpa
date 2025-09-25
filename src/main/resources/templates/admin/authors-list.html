@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin}">
+<head>
+    <title>Danh sách Tác giả</title>
+</head>
+<body>
+<div layout:fragment="content" class="container mt-4">
+
+    <h2 class="mb-3">Danh sách Tác giả</h2>
+    <a th:href="@{/admin/authors/add}" class="btn btn-primary mb-3">+ Thêm Tác giả</a>
+
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark text-center">
+        <tr>
+            <th>ID</th>
+            <th>Tên tác giả</th>
+            <th>Ngày sinh</th>
+            <th>Thao tác</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="a : ${authors}">
+            <td th:text="${a.authorId}"></td>
+            <td th:text="${a.authorName}"></td>
+          <td th:text="${a.dateOfBirth != null ? #temporals.format(a.dateOfBirth, 'dd/MM/yyyy') : 'Chưa có'}"></td>
+
+            <td class="text-center">
+                <a th:href="@{/admin/authors/edit/{id}(id=${a.authorId})}" class="btn btn-sm btn-warning">Sửa</a>
+                <a th:href="@{/admin/authors/delete/{id}(id=${a.authorId})}"
+                   class="btn btn-sm btn-danger"
+                   onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Phân trang -->
+    <nav th:if="${totalPages > 1}">
+        <ul class="pagination">
+            <li th:each="i : ${#numbers.sequence(0, totalPages-1)}"
+                th:classappend="${i == currentPage} ? 'active'">
+                <a class="page-link" th:href="@{/admin/authors(page=${i})}" th:text="${i+1}"></a>
+            </li>
+        </ul>
+    </nav>
+
+</div>
+</body>
+</html>
